@@ -2,16 +2,13 @@
 
 讓 Claude 在任何資料夾替你操作看我笑話平台「開發」頁的票：開票、列出與查看票、認領、取消認領、交付、驗收、退回、標不做。規則跟網頁一樣，票記在你本人名下。開票前 Claude 會先把草稿列給你確認。
 
-## 安裝（每台電腦一次）
+## 安裝（每台電腦一次，用 Claude 桌面版）
 
-在 Claude（Claude Code 或桌面 App 的 Code 分頁）輸入這兩行，各按一次 Enter：
+打開 Claude 桌面版的 **Code 分頁**，把下面這段話貼給 Claude：
 
-```
-/plugin marketplace add jokesonme-studio/jokesonme-plugins
-/plugin install jokesonme@jokesonme
-```
+> 請幫我安裝看我笑話外掛：先備份 ~/.claude/settings.json，然後在 extraKnownMarketplaces 加上 "jokesonme"（source 是 github，repo 是 jokesonme-studio/jokesonme-plugins），在 enabledPlugins 加上 "jokesonme@jokesonme": true，其他設定都不要動。
 
-裝好後重新開啟 Claude。
+Claude 改好後開一個新對話，問「我連好看我笑話了嗎？」，看到連結說明就是裝好了。外掛的工具在 Code 分頁可以用，一般的 Chat 分頁不行。
 
 ## 連結你的帳號
 
