@@ -1,0 +1,12 @@
+{
+  "name": "jokesonme",
+  "owner": { "name": "看我笑話工作室" },
+  "metadata": { "description": "看我笑話工作室的 Claude 外掛" },
+  "plugins": [
+    {
+      "name": "jokesonme",
+      "source": "./plugins/jokesonme",
+      "description": "看我笑話：在任何資料夾請 Claude 開票、查票、認領、交付、驗收（看我笑話平台「開發」頁）"
+    }
+  ]
+}

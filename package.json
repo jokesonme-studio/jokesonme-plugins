@@ -1,0 +1,8 @@
+{
+  "name": "jokesonme-plugins",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"plugins/**/*.test.mjs\""
+  }
+}

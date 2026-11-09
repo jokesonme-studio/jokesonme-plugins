@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "jokesonme": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/jokesonme.mjs"]
+    }
+  }
+}

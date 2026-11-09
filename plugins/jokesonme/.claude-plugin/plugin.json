@@ -1,0 +1,8 @@
+{
+  "name": "jokesonme",
+  "version": "1.0.0",
+  "description": "看我笑話工作室：在任何 Claude 對話裡操作看我笑話平台「開發」頁的票。到平台「我的」→「連結 Claude」拿連結碼連上之後，可以請 Claude 開票（會先列草稿給你確認）、列出與查看票、認領、取消認領、交付、驗收、退回、標不做；規則跟網頁一樣，票記在你本人名下。",
+  "author": { "name": "看我笑話工作室" },
+  "homepage": "https://github.com/jokesonme-studio/jokesonme-plugins",
+  "keywords": ["看我笑話", "jokesonme", "開發票"]
+}
