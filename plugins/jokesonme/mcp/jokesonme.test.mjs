@@ -94,9 +94,9 @@ test('列票、開票、動作：把平台結果寫成中文，分類用中文�
     'POST /api/claude/tickets/3/actions': { status: 400, body: { error: '認領人不能驗收自己做的票，請回報人或管理員驗收' } },
   });
   const ctx = ctxWith(file, p.fetchImpl);
-  assert.equal((await tool('list_tickets').run(ctx, { mine: true })).text, 'T-3《首頁倒數》（新功能／處理中）回報：傑哥，認領：柏文');
+  assert.equal((await tool('list_tickets').run(ctx, { mine: true })).text, 'J-3《首頁倒數》（新功能／處理中）回報：傑哥，認領：柏文');
   const c = await tool('create_ticket').run(ctx, { title: '行事曆週末顏色', category: '修 Bug', description: '現在怎樣：…' });
-  assert.equal(c.text, '已開票 T-7：http://x/tickets?t=7');
+  assert.equal(c.text, '已開票 J-7：http://x/tickets?t=7');
   assert.deepEqual(p.calls[1].body, { title: '行事曆週末顏色', category: '修 Bug', description: '現在怎樣：…' });
   assert.deepEqual(await tool('act_on_ticket').run(ctx, { number: 3, action: 'accept' }), { ok: false, error: '認領人不能驗收自己做的票，請回報人或管理員驗收' });
 });
