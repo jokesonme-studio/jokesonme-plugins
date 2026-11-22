@@ -103,13 +103,13 @@ export function makeCaller(cfg, fetchImpl = fetch) {
 const ACTION_LABEL = { claim: '認領', unclaim: '取消認領', deliver: '交付', accept: '驗收通過', reject: '退回', wontfix: '不做' };
 
 export function ticketLine(t) {
-  return `T-${t.number}《${t.title}》（${t.categoryLabel}／${t.statusLabel}）回報：${t.reporter}，認領：${t.owner ?? '沒人'}`;
+  return `J-${t.number}《${t.title}》（${t.categoryLabel}／${t.statusLabel}）回報：${t.reporter}，認領：${t.owner ?? '沒人'}`;
 }
 
 export function ticketDetail(d) {
   const t = d.ticket;
   const lines = [
-    `T-${t.number}《${t.title}》`,
+    `J-${t.number}《${t.title}》`,
     `分類：${t.categoryLabel}　狀態：${t.statusLabel}　回報：${t.reporter}　認領：${t.owner ?? '沒人'}`,
     `下一步：${d.nextStep}`,
     `你現在能做的動作：${d.allowedActions.length ? d.allowedActions.map((a) => ACTION_LABEL[a] ?? a).join('、') : '沒有'}`,
@@ -176,7 +176,7 @@ export const TOOLS = [
   {
     name: 'get_ticket',
     description: '看一張票的完整內容：描述、歷史、下一步、我現在能做的動作；我是認領人或管理員時也會附上開工指令。',
-    inputSchema: { type: 'object', properties: { number: { type: 'integer', minimum: 1, description: '票號 T-n 的 n' } }, required: ['number'], additionalProperties: false },
+    inputSchema: { type: 'object', properties: { number: { type: 'integer', minimum: 1, description: '票號 J-n 的 n（看我笑話的票是 J- 開頭；T- 開頭是公司 Jebby Dashboard 的任務懸賞，不是這裡的票）' } }, required: ['number'], additionalProperties: false },
     async run(ctx, args) {
       const r = await ctx.call(`/api/claude/tickets/${Number(args.number)}`);
       if (!r.ok) return r;
@@ -201,7 +201,7 @@ export const TOOLS = [
     async run(ctx, args) {
       const r = await ctx.call('/api/claude/tickets', { method: 'POST', body: { title: args.title, category: args.category, description: args.description } });
       if (!r.ok) return r;
-      return { ok: true, text: `已開票 T-${r.data.number}：${r.data.url}` };
+      return { ok: true, text: `已開票 J-${r.data.number}：${r.data.url}` };
     },
   },
   {
@@ -212,7 +212,7 @@ export const TOOLS = [
     inputSchema: {
       type: 'object',
       properties: {
-        number: { type: 'integer', minimum: 1, description: '票號 T-n 的 n' },
+        number: { type: 'integer', minimum: 1, description: '票號 J-n 的 n（看我笑話的票是 J- 開頭；T- 開頭是公司 Jebby Dashboard 的任務懸賞，不是這裡的票）' },
         action: { type: 'string', enum: ['claim', 'unclaim', 'deliver', 'accept', 'reject', 'wontfix'] },
         note: { type: 'string', description: '原因（退回、不做必填）' },
       },
@@ -222,14 +222,15 @@ export const TOOLS = [
     async run(ctx, args) {
       const r = await ctx.call(`/api/claude/tickets/${Number(args.number)}/actions`, { method: 'POST', body: { action: args.action, note: args.note ?? '' } });
       if (!r.ok) return r;
-      return { ok: true, text: `T-${r.data.number} 已${ACTION_LABEL[args.action] ?? args.action}。` };
+      return { ok: true, text: `J-${r.data.number} 已${ACTION_LABEL[args.action] ?? args.action}。` };
     },
   },
 ];
 
 const INSTRUCTIONS =
   '看我笑話平台「開發」頁的票。使用者說「幫我開一張票」「把這個記成票」→ 照 ticket-rules 使用指引問清楚、查重複、列草稿確認後 create_ticket；' +
-  '「有哪些票」→ list_tickets；「T-3 現在怎樣」→ get_ticket；「我來做 T-3」「T-3 做好了」「T-3 驗收通過」→ 先確認再 act_on_ticket。' +
+  '「有哪些票」→ list_tickets；「J-3 現在怎樣」→ get_ticket；「我來做 J-3」「J-3 做好了」「J-3 驗收通過」→ 先確認再 act_on_ticket。' +
+  '看我笑話的票號是 J-n。T-n 是公司 Jebby Dashboard 的任務懸賞，不是這裡的票：使用者說 T-n、或只說票號沒說是哪個平台而且對話裡看不出來時，先問他是看我笑話還是 Dashboard，不要猜，也不要拿同一個號碼來這裡查。' +
   '工具回「還沒連結」時，把那段說明原樣告訴使用者；使用者貼出連結碼就呼叫 link_account。';
 
 /* ---------- stdio JSON-RPC ---------- */
